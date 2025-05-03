@@ -16,7 +16,7 @@ it sends push notifications when:
 
 ## installing
 
-- install python3. i suggest homebrew, choco, or just use the installer: https://www.python.org/downloads/
+- install python3. i suggest homebrew, winget, or just use the installer: https://www.python.org/downloads/
   - _this script might require python3.11_
 - install the `requests` module with `pip3 install requests` (or use `pipenv install` to automatically install dependencies)
 - clone this repo

@@ -76,6 +76,9 @@ def log_parse(log_path, parser_stop):
     elif check_trigger(line, '{}:'.format(args.nick), disregard_bot_nicks=True):
       logging.info('mention detected ⚠️')
       notify(line, title="You've been mentioned", tags='wave')
+    elif 'Disconnected' in line:
+      logging.info('IRC disconnect detected ⚠️')
+      notify(line, title="You've been disconnected from IRC!", tags='x', priority=5)
     elif check_netsplit(line):
       logging.info('netsplit detected ⚠️')
       notify(line, title="Netsplit detected – requeue within 10min!", tags='electric_plug', priority=5)

@@ -76,7 +76,7 @@ def log_parse(log_path, parser_stop):
     elif check_trigger(line, '{}:'.format(args.nick), disregard_bot_nicks=True):
       logging.info('mention detected ⚠️')
       notify(line, title="You've been mentioned", tags='wave')
-    elif check_words(line, triggers=['quit', 'disconnect', 'part', 'left', 'leave']):
+    elif check_netsplit(line):
       logging.info('netsplit detected ⚠️')
       notify(line, title="Netsplit detected – requeue within 10min!", tags='electric_plug', priority=5)
     elif check_words(line, triggers=['kick'], check_nick=True):
@@ -116,6 +116,18 @@ def check_words(line, triggers, check_nick=False):
       else:
         if bot in line and trigger.lower() in line.lower():
           return True
+  return False
+
+def check_netsplit(line):
+  """Check if line contains actual IRC netsplit or ping timeout message"""
+  if 'left IRC' not in line:
+    return False
+  # Check for actual netsplit pattern
+  if '*.net *.split' in line:
+    return True
+  # Check for ping timeout with exactly 121 seconds
+  if 'Ping timeout: 121 seconds' in line:
+    return True
   return False
 
 def remove_html_tags(text):
